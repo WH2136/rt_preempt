@@ -1,0 +1,25 @@
+1、关于kernelshark 的详细使用方法，可以参考下面的地址：
+   http://people.redhat.com/srostedt/kernelshark/HTML/#graph-zoom-in
+   trace-cmd & kernelshark 的安装方法可以参考下面地址：
+   http://blog.csdn.net/killmice/article/details/43938929
+
+2、安装trace-cmd & kernelshark
+   Sudo apt-get install trace-cmd
+   Sudo apt-get install kernelshark
+
+3、两个工具大概介绍一下：
+   kernelshark是trace-cmd执行结果的可视化输出. 运行trace-cmd工具后会生成一个记录文件trace-cmd.dat, kernelshark的工作就是将这个文件内容以可视化的方式展示出来.
+
+4、大概的使用方法(我们以跟踪中断事件为例)：
+   a. sudo trace-cmd record -r irq
+   # 执行以上命令后会在当前文件夹下面生成一个文件trace-cmd.dat
+   b. sudo kernelshark -i trace-cmd.dat
+   # 执行以上命令后即可看到图形化界面的kernelshark.
+
+5、trace-cmd的一般使用方法示例：
+如果想查看，trace-cmd参数record的用法，可以这么查询man手册
+ #  man trace-cmd record
+就可以看到trace-cmd参数record详细用法
+
+6、kernelshark用法
+   Kernelshark的用法很简单，只需要使用命令”# sudo kernelshark -i trace-cmd.dat”将trace-cmd生成的文件以图形化展现出来就可以了.
