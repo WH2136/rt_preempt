@@ -23,3 +23,6 @@
 
 6、kernelshark用法
    Kernelshark的用法很简单，只需要使用命令”# sudo kernelshark -i trace-cmd.dat”将trace-cmd生成的文件以图形化展现出来就可以了.
+
+7、kernelshark图形界面的介绍可以参考下面网址，讲的特别详细
+   http://people.redhat.com/srostedt/kernelshark/HTML/
