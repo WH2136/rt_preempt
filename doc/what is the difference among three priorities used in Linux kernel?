@@ -1,0 +1,67 @@
+I am new to Linux kernel and right now i am studying about Process Scheduling in Linux kernel . There are three
+types of priorities in Linux :
+
+1、Static priority
+2、Dynamic priority
+3、Real time priority
+Now what i have understood is that :
+
+Static priority and Dynamic priority are defined only for Conventional processes and they can take value from 100 to 139 only.
+Static priority is used to determine base time slice of a process
+Dynamic priority is used to select a process to be executed next.
+Real time priorities are defined only for Real time processes and it's value can range from 0 to 99
+
+Now my questions are :
+     Correct me if i am wrong and please also tell me why we are using three types of priorities in Linux and what are the
+differences among these priorities? Are the processes are differentiated as Real time or Conventional on the basis of priorities
+that is if priority is between 100 to 139 then processes are Conventional processes otherwise Real time processes? How the
+priorities are changed in Linux , i mean , we know that priority of a process does not remain constant through out the execution ?
+
+
+
+
+
+
+
+Disclaimer: Following is true for scheduling in linux (I am not sure about windows or other OS). Thread and process has been
+used interchangeably here, althogh there is a difference in between them.
+
+Priorities & differences
+
+1、Static priority: These are the default priorities (value 0 for conventional processes aka non-real time processes ie
+  when real time scheduling is not used) set while creating a new thread. You can change them using:`pthread_setschedparam
+  (pthread_t thread, int policy, const struct sched_param *param);`
+where, sched_param contains the priority:
+
+struct sched_param 
+{
+    int sched_priority;     /* Scheduling priority */
+};
+
+2、Dynamic priority: When threads start to starve because higher priority threads being scheduled all the time, there becomes
+a need to raise the priority of such a thread using various mechanisms. This raised/lowered (yes, this happens too) priority
+is known as the dynamic priority because it keeps on changing. In Linux, even the fat kid gets to play.
+
+3、Real time priority: This comes into picture only when threads (processes) are scheduled under one of the real-time policies
+(SCHED_FIFO, SCHED_RR) and have a sched_priority value in the range 1 (low) to 99 (high). This is the highest in comparison to
+the static/dynamic priorities of non real time processes.
+
+More information: http://man7.org/linux/man-pages/man3/pthread_getschedparam.3.html
+
+Now, to your questions:
+
+     Correct me if i am wrong and please also tell me why we are using three types of priorities in Linux and what are the differences
+among these priorities? So, for non-real time scheduling policies, every process has some static priorities, a higher priority 
+gives the thread a kick-start, and later to avoid any injustice, the priority is boosted/lowered which becomes the dynamic priority.
+
+Are the processes are differentiated as Real time or Conventional on the basis of priorities that is if priority is between
+100 to 139 then processes are Conventional processes otherwise Real time processes?Not really, it depends upon the scheduling
+mechanism in place.
+
+How the priorities are changed in Linux , i mean , we know that priority of a process does not remain constant through out
+the execution ?That's when the dynamicness comes into picture. Read about the "nice value" in the given links.
+
+
+
+ref: 
+ http://stackoverflow.com/questions/22163722/what-is-the-difference-among-three-priorities-used-in-linux-kernel
